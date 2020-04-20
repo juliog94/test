@@ -1,0 +1,142 @@
+<html>
+<head>
+<meta http-equiv="Pragma" content="no-cache"> <meta HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=iso-8859-1"> 
+<meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="bootstrap.css" rel="stylesheet">
+<title>Welcome to GuestNet Sanmina</title>
+
+<script>
+function submitAction(){
+      var link = document.location.href;
+      var searchString = "redirect=";
+      var equalIndex = link.indexOf(searchString);
+      var redirectUrl = "";
+
+      if (document.forms[0].action == "") {
+      var url = window.location.href;
+      var args = new Object();
+      var query = location.search.substring(1);
+      var pairs = query.split("&");
+          for(var i=0;i<pairs.length;i++){
+              var pos = pairs[i].indexOf('=');
+              if(pos == -1) continue;
+              var argname = pairs[i].substring(0,pos);
+              var value = pairs[i].substring(pos+1);
+              args[argname] = unescape(value);
+          }
+          document.forms[0].action = args.switch_url;       
+      }       
+      if(equalIndex >= 0) {
+            equalIndex += searchString.length;
+            redirectUrl = "";
+            redirectUrl += link.substring(equalIndex);
+      }
+      if(redirectUrl.length > 255)
+      redirectUrl = redirectUrl.substring(0,255);
+      document.forms[0].redirect_url.value = redirectUrl;
+      document.forms[0].buttonClicked.value = 4;
+      document.forms[0].submit();
+}
+
+function loadAction(){
+     var url = window.location.href;
+     var args = new Object();
+     var query = location.search.substring(1);
+     var pairs = query.split("&");
+     for(var i=0;i<pairs.length;i++){
+          var pos = pairs[i].indexOf('=');
+          if(pos == -1) continue;
+          var argname = pairs[i].substring(0,pos);
+          var value = pairs[i].substring(pos+1);
+          args[argname] = unescape(value);
+     }
+     document.forms[0].action = args.switch_url;
+
+     // This is the status code returned from webauth login action
+     // Any value of status code from 1 to 5 is error condition and user
+     // should be shown error as below or modify the message as it suits
+     // the customer
+
+     if(args.statusCode == 1){
+        alert("You are already logged in. No further action is required on your part.");
+     }
+     else if(args.statusCode == 2){
+        alert("You are not configured to authenticate against web portal. No further action is required on your part.");
+     }
+     else if(args.statusCode == 3){
+        alert("The username specified cannot be used at this time. Perhaps the user is already logged into the system?");
+     }
+     else if(args.statusCode == 4){
+        alert("Wrong username and password. Please try again.");
+     }
+     else if(args.statusCode == 5){
+        alert("The User Name and Password combination you have entered is invalid.  Please try again.");
+     }
+}
+
+</script>
+</head>
+<body topmargin="50" marginheight="50" onload="loadAction();"> <form method="post"> <input TYPE="hidden" NAME="buttonClicked" SIZE="16" MAXLENGTH="15" value="0"> <input TYPE="hidden" NAME="redirect_url" SIZE="255" MAXLENGTH="255" VALUE=""> <input TYPE="hidden" NAME="err_flag" SIZE="16" MAXLENGTH="15" value="0">
+<div class="container mbottom-10 mtop-40" id="main-content" >
+    <div class="col-sm-8 col-sm-offset-2 clearfix">
+	<div class="flex-container">      
+	<div class="row" >
+        <div class="col-xs-12 col-sm-12 col-lg-12 col-md-12">
+          <div class="col-xs-12 bg-gray-darker">
+            <img src="secure-access-header.png" class="mtop-20 img-responsive center-block">
+            </div>
+        </div>
+      </div>
+	</div>
+      <div class="panel panel-default mbottom-10">
+        <div class="panel-body">
+          <div class="col-lg-5 col-md-5 mtop-15 clearfix">
+            <div class="row">
+              <div class="col-xs-12 col-sm-12 col-lg-12 col-md-12">
+                <div class="mtop-5" style="text-align: center; padding-top: 1px; padding-bottom: 4px;">
+             
+                    <h4 class="mbottom-5" id="idnameapp" style="color: #575756;">GUESTNET ACCESS</h4>
+                  </div> 
+              </div>
+            </div>
+            <div class="row mtop-10">
+              <div class="col-lg-12 col-md-12">
+                  <var id=idmessage></var>
+              </div>
+            </div>
+              <div class="row">
+              <div class="col-xs-12 col-sm-12 col-lg-12 col-md-12">
+                 <div class="alert alert-success alert-dismissable hide">
+                              <button type="button" class="close" data-dismiss="alert" aria-hidden="true"></button>
+                              <b>You was successfully logged out</b>
+                            </div>
+              </div>
+            </div>
+              <div class="form-group">
+                <label for="exampleInputEmail1">Username</label>
+              <input type="text" class="form-control" name="username" SIZE="25" MAXLENGTH="63" VALUE="">
+              </div>
+              <div class="form-group mtop-10">
+                <label for="exampleInputPassword1">Password</label>
+                <input type="password" name="password" class="form-control blur loginmod"  SIZE="25" MAXLENGTH="63" VALUE=""  >
+			
+            </div> 
+            <button type="submit" id="Submit" name="Submit" class="btn btn-danger btn-lg btn-loading col-sm-12 col-xs-12 mtop-10" onclick="submitAction();">
+              <span class="content">Login<span></span></span>
+            </button>
+          </div>
+          <div class="col-lg-7 col-md-7 mtop-10 mbottom-10">
+            <div class="clearfix well well-info legal-notice">
+              <div class="col-xs-12">
+                <h5 class="text-center ng-binding" ng-bind-html="'userIDView.legalNoticeTitle' | i18n">SANMINA CORPORATION ELECTRONIC WORKSPACE LEGAL NOTICE</h5>
+           <center> <iframe  src="./aup.html" height="400" width="100%" scrolling="auto"></iframe>
+           </center>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+</html>
